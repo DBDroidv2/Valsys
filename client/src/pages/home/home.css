@@ -1,0 +1,31 @@
+/* Define keyframes for the snake movement */
+@keyframes snakeMove {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+  }
+  
+  /* Define keyframes for the snake mouth opening */
+  @keyframes snakeMouth {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .snake-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust as needed */
+  }
+  
+  .snake-image {
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    animation: snakeMove 5s infinite ease-in-out;
+  }
+  
+  .snake-mouth-open {
+    animation: snakeMouth 0.5s forwards;
+  }
+  

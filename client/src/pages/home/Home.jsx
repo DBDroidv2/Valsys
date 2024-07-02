@@ -5,106 +5,154 @@ import { Island } from "../../components";
 
 const Home = () => {
   const [isMouthOpen, setIsMouthOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [terminalOutput, setTerminalOutput] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
-        // Adjust scrollY value as needed
-        setIsMouthOpen(true);
+        setIsMouthOpen(true); // Adjust scrollY value as needed
       } else {
         setIsMouthOpen(false);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  const handleInputKeyDown = (event) => {
+    if (event.key === "Enter") {
+      const input = inputValue.trim(); // Trim whitespace
+      if (input !== "") {
+        setTerminalOutput((prevOutput) => [...prevOutput, `${input}`]);
+        setInputValue("");
+      }
+    }
+  };
+
   return (
     <div className="w-full bg-gradient-to-b from-gray-800 to-black text-white min-h-screen pt-3">
       <Island />
-      <section className="text-center pb-0 p-20">
+      <section className="text-center pb-0 p-3 pt-16 lg:p-20">
         <h1 className="text-4xl md:text-6xl font-bold">
-          Ai Robotic is on Next Level of Tech
+          Valkyrie - Guardian Of Your Cyber Realms
         </h1>
         <p className="mt-4 text-zinc-400">
-          Better undefined leads to more performant models. Performant models
-          lead to faster deployment. Deliver value from your AI investments
-          faster with better undefined.
+          At Valkyrie, we defend your digital realms from modern threats.
+          Empowering businesses and individuals with adaptive cybersecurity
+          solutions that evolve with technology.
         </p>
-        <div className="mt-6 space-x-4">
-          <button className="bg-purple-600 text-white px-6 py-3 rounded-lg">
-            Start For Free
-          </button>
-          <button className="border border-zinc-400 text-white px-6 py-3 rounded-lg">
-            Try Demo Now
-          </button>
+        <div className="mt-6 space-y-4 lg:space-x-4 lg:space-y-0">
+          <a href="/auth">
+            <button className="w-11/12 lg:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg">
+              Get Community Version
+            </button>
+          </a>
+          <a href="/auth">
+            <button className="w-11/12 lg:w-auto border border-zinc-400 text-white px-6 py-3 rounded-lg">
+              Try Premium Version
+            </button>
+          </a>
         </div>
 
-        <div className="flex items-center justify-center mb-8 mt-8">
-          <div className="shadow-lg h-full bg-white bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-5 border-1 border-zinc-700 dark:border-zinc-300 w-10/12 md:w-6/12 flex flex-col transform rounded-lg">
-            <div className="flex items-center justify-between p-2 md:p-4 border-b border-zinc-700 dark:border-zinc-300">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-1 md:mr-2"></div>
-                <div className="w-2 h-2 bg-yellow-400 rounded-full mr-1 md:mr-2"></div>
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-1 md:mr-2"></div>
-              </div>
-              <div className="text-white">Terminal</div>
-              <div className="w-6 h-6 bg-zinc-700 dark:bg-zinc-300 rounded-full flex items-center justify-center cursor-pointer">
-                <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+        <div className="bg-background text-foreground flex flex-col items-center justify-center p-4 mt-10">
+          <div
+            style={{
+              border: "0.0625em solid rgba(128, 132, 138, .5)",
+            }}
+            className="w-full max-w-4xl bg-card text-card-foreground rounded-lg shadow-2xl overflow-hidden transform transition-transform hover:scale-105"
+          >
+            <div className="bg-gradient-to-r from-secondary to-accent text-secondary-foreground p-4 flex items-center justify-between shadow-md">
+              <span className="font-mono text-lg">Terminal</span>
+              <div className="flex space-x-2">
+                <span className="w-3 h-3 bg-red-500 rounded-full shadow-lg"></span>
+                <span className="w-3 h-3 bg-yellow-500 rounded-full shadow-lg"></span>
+                <span className="w-3 h-3 bg-green-500 rounded-full shadow-lg"></span>
               </div>
             </div>
-            <div className="flex flex-col items-start p-2 md:p-4 overflow-y-auto text-green-400 font-mono">
-              <p>Welcome to Terminal</p>
-              <p>
-                $ <span className="text-white">ls</span>
-              </p>
-              <p>projects/ documents/ images/</p>
-              <p>
-                $ <span className="text-white">cd projects</span>
-              </p>
-              <p>
-                $ <span className="text-white">ls</span>
-              </p>
-              <p>project1/ project2/</p>
-              <p>
-                $ <span className="text-white">cd project1</span>
-              </p>
-              <p>
-                $ <span className="text-white">vim main.js</span>
-              </p>
-              <p>Opening main.js...</p>
-            </div>
-            <div className="flex p-2 md:p-4 border-t border-zinc-700 dark:border-zinc-300">
-              <input
-                type="text"
-                className="bg-transparent text-white w-full focus:outline-none"
-                placeholder="Type your command here..."
-              />
+            <div
+              style={{
+                borderTop: "0.0625em solid rgba(128, 132, 138, .5)",
+              }}
+              className="p-4 font-mono text-sm bg-foreground flex flex-col justify-start text-background h-96 overflow-y-auto shadow-inner"
+            >
+              <div id="terminal-output" className="flex flex-col justify-start">
+                <span className="text-left">
+                  <span
+                    style={{
+                      color: "green",
+                      marginRight: "10px",
+                    }}
+                  >
+                    user@asgard:~$
+                  </span>
+                  Welcome to Valkyrie Systems!
+                </span>
+                <span className="text-left">
+                  <span
+                    style={{
+                      color: "green",
+                      marginRight: "10px",
+                    }}
+                  >
+                    user@asgard:~$
+                  </span>
+                  Type 'valkyrie --help' to get started...
+                </span>
+                {terminalOutput.map((line, index) => (
+                  <span className="text-left" key={index}>
+                    <span
+                      style={{
+                        color: "green",
+                        marginRight: "10px",
+                      }}
+                    >
+                      user@asgard:~$
+                    </span>
+                    {line}
+                  </span>
+                ))}
+              </div>
+              <div className="flex mt-2">
+                <span className="text-primary-foreground">$</span>
+                <input
+                  id="terminal-input"
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleInputKeyDown}
+                  className="flex-1 bg-transparent border-none outline-none text-primary-foreground ml-2 placeholder-muted-foreground"
+                  placeholder="Type your command here..."
+                  autoFocus
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="text-center py-12">
+      {/* <section className="text-center py-12">
         <p className="text-zinc-400">
-          Our design partners include the world's leading product-led companies
+          Our systems are built on top of the most advanced cybersecurity
+          technologies.
         </p>
-        <div className="flex justify-center space-x-8 mt-4">
-          <img src="https://placehold.co/100x50" alt="Facebook" />
-          <img src="https://placehold.co/100x50" alt="Google" />
-          <img src="https://placehold.co/100x50" alt="Airbnb" />
-          <img src="https://placehold.co/100x50" alt="Amazon" />
-          <img src="https://placehold.co/100x50" alt="Instacart" />
+        <div className="w-full overflow-scroll flex justify-center space-x-8 mt-4">
+          <img className="w-16" src="../../../public/ai.png" alt="Facebook" />
+          <img className="w-16" src="../../../public/node.png" alt="Google" />
+          <img className="w-16" src="../../../public/js.png" alt="Airbnb" />
+          <img className="w-16" src="../../../public/react.png" alt="Amazon" />
+          <img className="w-16" src="../../../public/python.png" alt="Instacart" />
         </div>
-      </section>
+      </section> */}
 
       <section className="py-12 px-6 md:px-12">
         <h2 className="text-3xl font-bold">Data-Centric ML Lifecycle</h2>
         <p className="text-zinc-400 mt-4">
-          Xborg's mission is to accelerate the development of artificial
+          Valkyire's mission is to accelerate the development of artificial
           intelligence. We do this by providing a undefinedcentric, end-to-end
           solution to manage the entire lifecycle.
         </p>
@@ -122,7 +170,7 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">Manage Dataset</h3>
             <p className="text-zinc-400 mt-2">
-              Quickly check undefined quality and bias with Xborg's advanced
+              Quickly check undefined quality and bias with Valkyire's advanced
               tools.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
@@ -142,7 +190,7 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">Ensure Public Safety</h3>
             <p className="text-zinc-400 mt-2">
-              Recognize activities that need human attention through Xborg's
+              Recognize activities that need human attention through Valkyire's
               tracking and monitoring.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
@@ -188,10 +236,10 @@ const Home = () => {
 
       <section className="py-12 px-6 md:px-12">
         <h2 className="text-3xl font-bold">
-          Xborg unlock your creative potential
+          Valkyire unlock your creative potential
         </h2>
         <p className="text-zinc-400 mt-4">
-          Xborg's mission is to accelerate the development of artificial
+          Valkyire's mission is to accelerate the development of artificial
           intelligence. We do this by providing a undefinedcentric, end-to-end
           solution to manage the entire lifecycle.
         </p>
@@ -211,7 +259,7 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">Brainstorm new ideas</h3>
             <p className="text-zinc-400 mt-2">
-              Breakthrough creative block with Xborg's AI to help you spark
+              Breakthrough creative block with Valkyire's AI to help you spark
               fresh ideas.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
@@ -221,8 +269,8 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">10X your content output</h3>
             <p className="text-zinc-400 mt-2">
-              Whether you're a creator or editor of a content team, Xborg helps
-              you scale.
+              Whether you're a creator or editor of a content team, Valkyire
+              helps you scale.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
               Learn More
@@ -231,7 +279,7 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">Write better, everywhere</h3>
             <p className="text-zinc-400 mt-2">
-              Whether writing emails, captions, or blog letters, Xborg helps
+              Whether writing emails, captions, or blog letters, Valkyire helps
               craft the perfect message.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
@@ -243,7 +291,7 @@ const Home = () => {
               Create content in 26 languages
             </h3>
             <p className="text-zinc-400 mt-2">
-              Xborg can read and write content in 26 languages including
+              Valkyire can read and write content in 26 languages including
               English, Spanish, Japanese.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
@@ -253,8 +301,8 @@ const Home = () => {
           <div className="bg-zinc-800 p-6 rounded-lg">
             <h3 className="text-xl font-bold">Build an AI-Powered business</h3>
             <p className="text-zinc-400 mt-2">
-              Whether you're a creator or editor of a content team, Xborg helps
-              you scale.
+              Whether you're a creator or editor of a content team, Valkyire
+              helps you scale.
             </p>
             <a href="#" className="text-purple-600 mt-4 inline-block">
               Learn More
@@ -266,7 +314,7 @@ const Home = () => {
       <section className="py-12 px-6 md:px-12">
         <h2 className="text-3xl font-bold">Our Testimonials</h2>
         <p className="text-zinc-400 mt-4">
-          Xborg's mission is to accelerate the development of artificial
+          Valkyire's mission is to accelerate the development of artificial
           intelligence. We do this by providing a undefinedcentric, end-to-end
           solution to manage the entire lifecycle.
         </p>
@@ -318,7 +366,7 @@ const Home = () => {
 
       <footer className="py-12 px-6 md:px-12 bg-black">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="text-2xl font-bold">Xborg</div>
+          <div className="text-2xl font-bold">Valkyrie</div>
           <ul className="flex space-x-8 mt-4 md:mt-0">
             <li>
               <a href="#" className="hover:text-zinc-400">
@@ -327,7 +375,7 @@ const Home = () => {
             </li>
             <li>
               <a href="#" className="hover:text-zinc-400">
-                Features
+                Tools
               </a>
             </li>
             <li>
@@ -348,7 +396,7 @@ const Home = () => {
           </ul>
         </div>
         <div className="mt-8 text-center text-zinc-400">
-          <p>© Xborg 2022 All Rights Reserved</p>
+          <p>© Valkyrie 2024 All Rights Reserved</p>
           <p className="mt-2">Terms & conditions • Privacy policy • Sitemap</p>
         </div>
       </footer>

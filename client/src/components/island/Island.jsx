@@ -19,7 +19,7 @@ function Island() {
   }, []);
 
   return (
-    <div className="sticky top-3 z-50 flex justify-center items-center">
+    <div className="sticky top-2 z-50 flex justify-center items-center">
       <nav
         className={`w-full bg-black p-3 flex justify-center items-center rounded-md mx-3 md:mx-3 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-25 transition-all duration-300 ${
           shrink ? "w-3/12 md:w-1/12" : ""
